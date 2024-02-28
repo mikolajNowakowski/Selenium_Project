@@ -66,4 +66,30 @@ public class Customer {
                 .paymentMethod(PaymentMethod.valueOf((data[19].toString())))
                 .build();
     }
+
+    @Override
+    public String toString() {
+        return "Customer -> [" +
+                "\nsocialTitle=" + socialTitle +
+                "\nfirstName='" + firstName +
+                "\nlastName='" + lastName +
+                "\nemail='" + email +
+                "\npassword='" + password +
+                "\nbirthday='" + birthday +
+                "\noffersFromPartnersEnabled=" + offersFromPartnersEnabled +
+                "\nnewsletterSingUp=" + newsletterSingUp +
+                "\ntermsAndConditionsAcceptation=" + termsAndConditionsAcceptation +
+                "\ncompany='" + company +
+                "\naddress='" + address +
+                "\naddressComplement='" + addressComplement +
+                "\ncity='" + city +
+                "\nstate='" + state +
+                "\npostalCode='" + postalCode +
+                "\ncountry='" + country +
+                "\nphone='" + phone +
+                "\nusageInputtedAddressAsInvoice=" + usageInputtedAddressAsInvoice +
+                "\nshippingComment='" + shippingComment +
+                "\npaymentMethod=" + paymentMethod + "]";
+
+    }
 }

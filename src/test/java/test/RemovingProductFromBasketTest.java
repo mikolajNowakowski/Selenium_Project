@@ -17,7 +17,7 @@ public class RemovingProductFromBasketTest extends BaseTest {
 
     @Test(dataProvider = "removingOneOfTwoProductProvider")
     void removingOneOfTwoProductFromBasket(RemovingOneOfTwoProductFromBasket data) throws InterruptedException {
-
+        extentTest.pass(data.toString());
         var price = new HomePage(driver)
                 .closeCookieWarning()
                 .goToTestStore()
@@ -31,7 +31,7 @@ public class RemovingProductFromBasketTest extends BaseTest {
                 .clickGoToCheckoutButton()
                 .removeSpecifiedProductFromCart(data.getRemovedProductName())
                 .getTotalPrice();
-        Assert.assertEquals(price.replaceAll("[^\\d.]", ""),data.getExpectedPrice());
+        Assert.assertEquals(price.replaceAll("[^\\d.]", ""), data.getExpectedPrice()+"1");
     }
 
     @DataProvider

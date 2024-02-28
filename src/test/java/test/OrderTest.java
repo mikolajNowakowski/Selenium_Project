@@ -1,5 +1,6 @@
 package test;
 
+import com.aventstack.extentreports.ExtentTest;
 import model.customer.data.order_test.OrderCompleteTestData;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -18,6 +19,8 @@ public class OrderTest extends BaseTest {
 
     @Test(dataProvider = "orderCompleteTestProvider")
     public void orderCompleteTest(OrderCompleteTestData orderCompleteTestData) {
+extentTest.pass("Test data: %s".formatted(orderCompleteTestData.toString()));
+
         var summaryPage = new HomePage(driver)
                 .closeCookieWarning()
                 .goToTestStore()

@@ -14,9 +14,11 @@ public class ScreenShot {
 
     private static final String screenShotPath = "./src/main/resources/screen_shot/";
 
-    public static void takeSnapShotToSpecifiedFolder(WebDriver driver, String className, String testName) throws IOException {
-        File destFile = new File(screenShotPath+className.replaceAll("\\.","/")+"/"+ testName+"_"+timestamp()+".png");
+    public static String takeSnapShotToSpecifiedFolder(WebDriver driver, String className, String testName) throws IOException {
+        var path = screenShotPath+className.replaceAll("\\.","/")+"/"+ testName+"_"+timestamp()+".png";
+        File destFile = new File(path);
         takeSnapShot(driver,destFile);
+        return path;
     }
 
     public static void takeSnapShotToResources(WebDriver driver) throws IOException {
