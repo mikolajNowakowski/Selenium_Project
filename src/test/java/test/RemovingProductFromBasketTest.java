@@ -13,7 +13,7 @@ import java.util.Arrays;
 
 @Listeners({BaseTest.class})
 
-public class RemovingProductFromBasket extends BaseTest {
+public class RemovingProductFromBasketTest extends BaseTest {
 
     @Test(dataProvider = "removingOneOfTwoProductProvider")
     void removingOneOfTwoProductFromBasket(RemovingOneOfTwoProductFromBasket data) throws InterruptedException {
