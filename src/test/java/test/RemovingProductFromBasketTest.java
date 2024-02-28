@@ -31,7 +31,7 @@ public class RemovingProductFromBasketTest extends BaseTest {
                 .clickGoToCheckoutButton()
                 .removeSpecifiedProductFromCart(data.getRemovedProductName())
                 .getTotalPrice();
-        Assert.assertEquals(price.replaceAll("[^\\d.]", ""), data.getExpectedPrice()+"1");
+        Assert.assertEquals(price.replaceAll("[^\\d.]", ""), data.getExpectedPrice());
     }
 
     @DataProvider
