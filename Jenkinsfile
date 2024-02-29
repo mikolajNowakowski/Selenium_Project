@@ -18,5 +18,10 @@ pipeline {
             }
         }
 
+           stage('Generating HTML Report') {
+                    steps {
+                        publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'Report', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+                    }
+                }
     }
 }
