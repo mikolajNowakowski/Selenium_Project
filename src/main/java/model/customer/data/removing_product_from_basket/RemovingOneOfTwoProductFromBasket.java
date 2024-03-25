@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @ToString
@@ -12,8 +14,8 @@ public class RemovingOneOfTwoProductFromBasket {
     private String removedProductName;
     private String expectedPrice;
 
-    public static RemovingOneOfTwoProductFromBasket of(Object[] data){
-        return new RemovingOneOfTwoProductFromBasket(data[0].toString(),data[1].toString(),data[2].toString());
+    public static RemovingOneOfTwoProductFromBasket of(List<String> data){
+        return new RemovingOneOfTwoProductFromBasket(data.get(0),data.get(1),data.get(2));
     }
 
 

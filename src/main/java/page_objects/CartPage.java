@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.math.BigDecimal;
 import java.time.Duration;
 
 public class CartPage {
@@ -16,6 +17,7 @@ public class CartPage {
     By proceedToCheckoutButton = By.cssSelector(".cart-detailed-actions .btn-primary");
     By cartItems = By.xpath("//li[@class='cart-item']");
     By totalPrice = By.xpath("//span[text()='Total (tax incl.)']/following-sibling::span[@class='value']");
+    By totalPriceWithoutShipping = By.cssSelector("div#cart-subtotal-products > .value");
 
     public CartPage(WebDriver driver) {
         this.driver = driver;
@@ -27,7 +29,9 @@ public class CartPage {
     }
 
     public CartPage providePromoCode(String promoCode) {
-        driver.findElement(promoCodeInput).sendKeys(promoCode);
+        new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(promoCodeInput)).sendKeys(promoCode);
+
+        //driver.findElement(promoCodeInput).sendKeys(promoCode);
         return this;
     }
 
@@ -54,9 +58,17 @@ public class CartPage {
         return this;
     }
 
-    public String getTotalPrice() {
-        return driver.findElement(totalPrice).getAttribute("innerText");
+    public BigDecimal getTotalPrice() {
+        return convertPriceToBD(driver.findElement(totalPrice).getAttribute("innerText"));
     }
 
+    public BigDecimal getTotalPriceWithoutShipping(){
+        return convertPriceToBD(driver.findElement(totalPriceWithoutShipping).getAttribute("innerText"));
+    }
+
+
+    private BigDecimal convertPriceToBD(String price){
+        return new BigDecimal(price.replaceAll("[^\\d.,]", ""));
+    }
 
 }

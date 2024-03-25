@@ -5,7 +5,11 @@ import model.customer.payment_method.PaymentMethod;
 import model.customer.social_title.SocialTitle;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class CheckoutPage {
 
@@ -33,6 +37,7 @@ public class CheckoutPage {
     By addressInfoConfirmationButton = By.name("confirm-addresses");
     By deliveryMethodConfirmationButton = By.name("confirmDeliveryOption");
     By orderConfirmationButton = By.cssSelector(".btn.btn-primary.center-block");
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
 
     public CheckoutPage(WebDriver driver) {
@@ -121,7 +126,7 @@ public class CheckoutPage {
     }
 
     public CheckoutPage provideShippingComment(String comment) {
-        driver.findElement(shippingMethodCommentInput).sendKeys(comment);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(shippingMethodCommentInput)).sendKeys(comment);
         return this;
     }
 

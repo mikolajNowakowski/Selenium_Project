@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.ToString;
 import model.customer.Customer;
 
+import java.util.List;
+
 @AllArgsConstructor
 @Data
 @ToString
@@ -13,8 +15,8 @@ public class OrderCompleteTestData {
     private String productName;
     private String promoCode;
 
-    public static OrderCompleteTestData of(Object[] data) {
-        return new OrderCompleteTestData(Customer.ofRowData(data), data[20].toString(), data[21].toString());
+    public static OrderCompleteTestData of(List<String> data) {
+        return new OrderCompleteTestData(Customer.ofRowData(data), data.get(20), data.get(21));
     }
 
     @Override

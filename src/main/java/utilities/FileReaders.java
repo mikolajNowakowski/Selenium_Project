@@ -10,6 +10,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Properties;
 
 public class FileReaders {
@@ -27,13 +30,9 @@ public class FileReaders {
 
 
     // ==== exel ====
-    public static Object[][] loadExcelData(String filePath, int sheetNumber) {
-        return loadExcelData(filePath, -1, -1, sheetNumber);
-    }
-
-    public static Object[][] loadExcelData(String filePath, int maxRows, int maxColumns, int sheetNumber) {
+    public static List<ArrayList<String>> loadExcelData(String filePath, String sheetName) {
+        Workbook workbook;
         try (FileInputStream fis = new FileInputStream(filePath)) {
-            Workbook workbook;
             if (filePath.endsWith(".xlsx")) {
                 workbook = new XSSFWorkbook(fis);
             } else if (filePath.endsWith(".xls")) {
@@ -41,37 +40,52 @@ public class FileReaders {
             } else {
                 throw new IllegalArgumentException("Unsupported file format");
             }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
-            Sheet sheet = workbook.getSheetAt(sheetNumber); // Assuming you are reading from the first sheet
 
-            int rowCount = maxRows > 0 ? Math.min(maxRows, sheet.getPhysicalNumberOfRows()) : sheet.getPhysicalNumberOfRows();
-            int colCount = 0;
+        var rowData = new ArrayList<ArrayList<String>>();
 
-            if (rowCount > 0) {
-                colCount = maxColumns > 0 ? Math.min(maxColumns, sheet.getRow(0).getPhysicalNumberOfCells()) : sheet.getRow(0).getPhysicalNumberOfCells();
-            }
 
-            Object[][] data = new Object[rowCount][colCount];
+        int sheetsNumber = workbook.getNumberOfSheets();
 
-            for (int i = 0; i < rowCount; i++) {
-                Row row = sheet.getRow(i);
-                for (int j = 0; j < colCount; j++) {
-                    Cell cell = row.getCell(j, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
-                    data[i][j] = convertCellToString(cell).replaceAll("'","").replaceAll("’","");
+        for (int i = 0; i < sheetsNumber; i++) {
+            if (workbook.getSheetName(i).equalsIgnoreCase(sheetName)) {
+                var sheet = workbook.getSheetAt(i);
+                var rowsIterator = sheet.iterator();
+                while (rowsIterator.hasNext()) {
+                    var colIterator = rowsIterator.next().cellIterator();
+                    if (colIterator.hasNext()) {
+                        var listOfTestData = new ArrayList<String>();
+                        colIterator.forEachRemaining(cell -> listOfTestData.add(convertCellToString(cell)));
+                       rowData.add(listOfTestData);
+                    }
                 }
             }
-            return data;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
         }
+            return rowData;
     }
+
+
+    public static void main(String[] args) {
+        var data = loadExcelData("./src/main/resources/RemovingProductFromBasket.xlsx","orderCompleteTest");
+
+        for (var row:data) {
+            for (var col:row) {
+                System.out.println(col);
+            }
+        }
+
+    }
+
     private static String convertCellToString(Cell cell) {
         return switch (cell.getCellType()) {
-            case NUMERIC -> new DecimalFormat("0").format(cell.getNumericCellValue());
+            case NUMERIC -> new DecimalFormat("0.00").format(cell.getNumericCellValue());
             case STRING -> cell.getStringCellValue();
-            case BOOLEAN -> String.valueOf(cell.getBooleanCellValue());
+            case BOOLEAN -> String.valueOf(cell.getBooleanCellValue()).replaceAll("[^a-zA-Z]", "");
             case FORMULA -> cell.getCellFormula();
+
             default -> "";
         };
     }

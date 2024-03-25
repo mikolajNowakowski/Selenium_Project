@@ -8,7 +8,8 @@ import org.testng.annotations.Test;
 import page_objects.HomePage;
 import utilities.FileReaders;
 
-import java.util.Arrays;
+import java.lang.reflect.Method;
+import java.math.BigDecimal;
 
 
 @Listeners({BaseTest.class})
@@ -31,13 +32,13 @@ public class RemovingProductFromBasketTest extends BaseTest {
                 .clickGoToCheckoutButton()
                 .removeSpecifiedProductFromCart(data.getRemovedProductName())
                 .getTotalPrice();
-        Assert.assertEquals(price.replaceAll("[^\\d.]", ""), data.getExpectedPrice());
+        Assert.assertEquals(price, new BigDecimal(data.getExpectedPrice()));
     }
 
     @DataProvider
-    private Object[] removingOneOfTwoProductProvider() {
+    private Object[] removingOneOfTwoProductProvider(Method method) {
         var props = FileReaders.propertiesLoader(appPropertiesPath);
-        var data = FileReaders.loadExcelData(props.getProperty("removingOneOfTwoProductFromBasketSourcePath"), Integer.parseInt(props.getProperty("removingOneOfTwoProductFromBasketDataSheet")));
-        return Arrays.stream(data).map(RemovingOneOfTwoProductFromBasket::of).toArray();
+        var data = FileReaders.loadExcelData(/*"./src/main/resources/RemovingProductFromBasket.xlsx"*/props.getProperty("exelFileName"), method.getName()/*result.getMethod().getMethodName()*/);
+        return data.stream().map(RemovingOneOfTwoProductFromBasket::of).toArray();
     }
 }

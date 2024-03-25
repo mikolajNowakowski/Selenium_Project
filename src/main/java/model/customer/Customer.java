@@ -7,6 +7,7 @@ import model.customer.payment_method.PaymentMethod;
 import model.customer.social_title.SocialTitle;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Data
 //@AllArgsConstructor
@@ -41,29 +42,29 @@ public class Customer {
     // ==== Payment method ====
     private PaymentMethod paymentMethod;
 
-    public static Customer ofRowData(Object[] data){
+    public static Customer ofRowData(List<String> data){
 
         return Customer.builder()
-                .socialTitle(SocialTitle.valueOf(data[0].toString()))
-                .firstName(data[1].toString())
-                .lastName(data[2].toString())
-                .email(data[3].toString())
-                .password(data[4].toString())
-                .birthday(data[5].toString())
-                .offersFromPartnersEnabled(Boolean.valueOf(data[6].toString()))
-                .newsletterSingUp(Boolean.valueOf(data[7].toString()))
-                .termsAndConditionsAcceptation(Boolean.valueOf(data[8].toString()))
-                .company(data[9].toString())
-                .address(data[10].toString())
-                .addressComplement(data[11].toString())
-                .city(data[12].toString())
-                .state(data[13].toString())
-                .postalCode(data[14].toString())
-                .country(data[15].toString())
-                .phone(data[16].toString())
-                .usageInputtedAddressAsInvoice(Boolean.valueOf(data[17].toString()))
-                .shippingComment(data[18].toString())
-                .paymentMethod(PaymentMethod.valueOf((data[19].toString())))
+                .socialTitle(SocialTitle.valueOf(data.get(0)))
+                .firstName(data.get(1))
+                .lastName(data.get(2))
+                .email(data.get(3))
+                .password(data.get(4))
+                .birthday(data.get(5))
+                .offersFromPartnersEnabled(Boolean.valueOf(data.get(6)))
+                .newsletterSingUp(Boolean.valueOf(data.get(7)))
+                .termsAndConditionsAcceptation(Boolean.valueOf(data.get(8)))
+                .company(data.get(9))
+                .address(data.get(10))
+                .addressComplement(data.get(11))
+                .city(data.get(12))
+                .state(data.get(13))
+                .postalCode(data.get(14))
+                .country(data.get(15))
+                .phone(data.get(16))
+                .usageInputtedAddressAsInvoice(Boolean.valueOf(data.get(17)))
+                .shippingComment(data.get(18))
+                .paymentMethod(PaymentMethod.valueOf((data.get(19))))
                 .build();
     }
 

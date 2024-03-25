@@ -66,7 +66,6 @@ public class BaseTest implements ITestListener {
                 throw new RuntimeException(e);
             }
         }
-
         driver.quit();
     }
 

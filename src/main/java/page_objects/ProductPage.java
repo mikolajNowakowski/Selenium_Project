@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.math.BigDecimal;
 import java.time.Duration;
 
 public class ProductPage {
@@ -17,9 +18,10 @@ public class ProductPage {
 
     By proceedToCheckoutButton = By.cssSelector(".cart-content-btn .btn-primary");
 
-    By continueShoppingButton = By.cssSelector(".btn.btn-secondary");
+    By continueShoppingButton = /*By.cssSelector(".btn.btn-secondary");*/ By.xpath("//button[text()='Continue shopping']");
 
-    By myStoreImg = By.cssSelector("img[alt='teststore']");
+    By myStoreImg = By.cssSelector("img[alt='Test Store']");
+    By productPrice = By.cssSelector(".h5.product-price  span");
 
     WebDriverWait wait;
 
@@ -52,5 +54,9 @@ public class ProductPage {
     public CartPage clickGoToCheckoutButton() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(proceedToCheckoutButton)).click();
         return new CartPage(driver);
+    }
+
+    public BigDecimal getPriceOfProduct(){
+        return new BigDecimal(driver.findElement(productPrice).getAttribute("content").replaceAll("[^\\d.,]", ""));
     }
 }

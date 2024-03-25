@@ -1,6 +1,5 @@
 package test;
 
-import com.aventstack.extentreports.ExtentTest;
 import model.customer.data.order_test.OrderCompleteTestData;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -8,8 +7,7 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import page_objects.HomePage;
 import utilities.FileReaders;
-
-import java.util.Arrays;
+import java.lang.reflect.Method;
 
 @Listeners({BaseTest.class})
 
@@ -39,9 +37,9 @@ extentTest.pass("Test data: %s".formatted(orderCompleteTestData.toString()));
     }
 
     @DataProvider
-    private Object[] orderCompleteTestProvider() {
+    private Object[] orderCompleteTestProvider(Method method) {
         var props = FileReaders.propertiesLoader(appPropertiesPath);
-        var data = FileReaders.loadExcelData(props.getProperty("orderCompleteTestDataSourcePath"), Integer.parseInt(props.getProperty("orderCompleteTestDataSheet")));
-        return  Arrays.stream(data).map(OrderCompleteTestData::of).toArray();
+        var data = FileReaders.loadExcelData(props.getProperty("exelFileName"), method.getName());
+        return  data.stream().map(OrderCompleteTestData::of).toArray();
     }
 }
